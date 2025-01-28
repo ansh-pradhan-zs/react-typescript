@@ -9,18 +9,20 @@ const WordGuessingGame = () => {
           .fill(0)
           .map((_, index) => {
             if (index === 0 || index === 1 || index == 2) {
-              return <div className="empty-line"></div>;
+              return <div key={index} className="empty-line"></div>;
             } else if (index === 3) {
-              return <div className="top-line"></div>;
+              return <div key={index} className="top-line"></div>;
             } else {
-              return <div id={index.toString()} className="line"></div>;
+              return (
+                <div key={index} id={index.toString()} className="line"></div>
+              );
             }
           })}
         <div className="side-line"></div>
       </div>
       {/* Title Span */}
       <span className="title">
-        <span className="asterisk">*</span> Word Guessing Game
+        <span className="asterisk">*</span> Guess The Word !
       </span>
       {/* Rules Section */}
       <span className="rules-title"># How to play ?</span>
@@ -46,12 +48,12 @@ const WordGuessingGame = () => {
 
       <svg width="750" height="100" className="pencil-line">
         <path
-          d="M10 50 C 150 45, 300 55, 450 50 S 600 45, 750 50"
+          d="M10 50 C 150 45, 300 55, 450 50 S 600 45, 750 60"
           stroke="black"
           fill="transparent"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
 

@@ -109,7 +109,7 @@
 
 .guess-box {
   position: absolute;
-  right: 100px;
+  right: 65px;
   top: 243px;
   display: flex;
   flex-direction: column;
@@ -128,21 +128,26 @@
 }
 
 .letter-pool {
-  margin-top: 50px;
+  margin-top: 48px;
   margin-left: 20px;
+  position: relative;
 }
 
 .rect {
   width: 550px;
   position: absolute;
-  left: -20px;
-  top: -15px;
+  left: -44px;
+  bottom: -26px;
+  z-index: 1;
 }
 
-.letter-pool div {
+.letter-pool-box {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  grid-gap: 10px;
+  grid-gap: 9px;
+  z-index: 2;
+  position: relative;
+  align-content: center;
 }
 
 .letter {
@@ -155,4 +160,98 @@
   align-items: center;
   justify-content: center;
   font-size: 30px;
+}
+
+.red {
+  background-color: red;
+  color: #f1e9d2;
+}
+
+.green {
+  background-color: green;
+  color: #f1e9d2;
+}
+
+.transparent {
+  background-color: transparent;
+}
+
+.letter:hover {
+  scale: 110%;
+}
+
+.letter-box {
+  width: 45px;
+  height: 45px;
+  background: transparent;
+  border-radius: 7px;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-area {
+  display: flex;
+  gap: 25px;
+  position: absolute;
+  top: 76px;
+  left: 90px;
+}
+
+.circle {
+  width: 200px;
+}
+
+.marks-circle {
+  margin-top: 100px;
+  margin-left: 300px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* gap: 100px; */
+}
+
+.teacher-marks-line {
+  transform: rotate(161deg);
+  border-top: 2px solid red;
+  width: 227px;
+  top: 60px;
+  position: absolute;
+}
+
+.max-marks {
+  position: absolute;
+  font-size: 30px;
+  transform: rotate(-31deg);
+  bottom: 14px;
+  right: 75px;
+  color: red;
+}
+
+.scored-marks {
+  position: absolute;
+  top: 13px;
+  left: 76px;
+  transform: rotate(-21deg);
+  font-size: 30px;
+  color: red;
+}
+
+.error {
+  position: absolute;
+  top: 143px;
+  font-size: 16px;
+  color: red;
+}
+
+.game-message {
+  position: absolute;
+  bottom: 30px;
+  left: -10px;
+  font-size: 36px;
+  transform: rotate(-13deg);
+  color: red;
 }

@@ -173,7 +173,7 @@ const GuessingBox = () => {
       {/*  Result Section */}
 
       {gameEndMessage && (
-        <span className="game-message ">{gameEndMessage}</span>
+        <span className="game-message fade-in">{gameEndMessage}</span>
       )}
 
       <div className="marks-circle">

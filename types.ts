@@ -1,4 +1,4 @@
 export interface ItemType {
-  id: number;
+  title: string;
   url: string;
 }

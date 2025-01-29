@@ -4,35 +4,41 @@ import { ItemType } from "../../types";
 
 interface props {
   currPage: number;
-  setCurrPage: React.Dispatch<React.SetStateAction<number>>;
+  itemsPerPage: number;
 }
 
-const ToBePaginated = ({ currPage, setCurrPage }: props) => {
+const ToBePaginated = ({ currPage, itemsPerPage }: props) => {
   const [items, setItems] = useState<ItemType[]>([]);
 
-  function populateItems() {
-    const tempItems = [];
-    for (let i = 0; i < 10; i++) {
-      const obj: ItemType = {
-        id: i,
-        url: "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
-      };
-      tempItems.push(obj);
+  async function populateItems() {
+    try {
+      const res = await fetch("https://dummyjson.com/products?limit=100");
+      const data = await res.json();
+      setItems(data.products);
+    } catch (error) {
+      console.log(error);
     }
-
-    setItems(tempItems);
   }
 
   useEffect(() => {
     populateItems();
   }, []);
 
+  const from = (currPage - 1) * itemsPerPage;
+  const to = from + itemsPerPage;
+
   return (
     <main className="boss-container">
       <span>Pagination Assignment</span>
       <div className="main-container">
-        {items.map((item, index) => {
-          return <ItemCardComponent key={index} id={item.id} url={item.url} />;
+        {items.slice(from, to).map((item, index) => {
+          return (
+            <ItemCardComponent
+              key={index}
+              title={item.title}
+              url={item.images[0]}
+            />
+          );
         })}
       </div>
     </main>

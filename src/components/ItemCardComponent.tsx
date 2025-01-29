@@ -1,11 +1,13 @@
 import React from "react";
 import { ItemType } from "../../types";
 
-const ItemCardComponent = ({ id, url }: ItemType) => {
+const ItemCardComponent = ({ title, url }: ItemType) => {
   return (
     <div className="item-container">
-      <img src={url} alt="dog pic" />
-      <span>{id}</span>
+      <div className="img-div">
+        <img src={url} alt="dog pic" />
+      </div>
+      <span>{title}</span>
     </div>
   );
 };

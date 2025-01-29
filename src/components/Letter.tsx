@@ -8,9 +8,11 @@ enum GuessStates {
 
 const Letter = ({
   randomWord,
+  gameOver,
   letter,
 }: {
   randomWord: string;
+  gameOver: boolean;
   letter: string;
 }) => {
   const [letterState, setLetterState] = useState<GuessStates>(
@@ -18,6 +20,7 @@ const Letter = ({
   );
 
   function handleClick() {
+    if (gameOver) return;
     if (randomWord.includes(letter)) {
       setLetterState(GuessStates.isInWord);
     } else {

@@ -2,40 +2,40 @@ import rectangle from "../assets/rect.png";
 import circle from "../assets/circle.png";
 import { useEffect, useState } from "react";
 import Letter from "./Letter";
+import { generate } from "random-words";
+import arrow from "../assets/arrow.png";
 
 // * GLOBALS start
 
-const wordsArr = ["house", "money", "phone", "water", "bread"];
+// const wordsArr = ["house", "money", "phone", "water", "bread"];
 const alphabet = Array.from({ length: 26 }, (_, i) =>
   String.fromCharCode(97 + i)
 );
 
 // * GLOBALS end
 
+type LetterPoolType = {
+  letter: string;
+  position: number;
+};
+
 const GuessingBox = () => {
   const [marks, setMarks] = useState<number>(10);
-  // const [guessState, setGuessState] = useState();
-  const [letterPool, setLetterPool] = useState<string[]>([]);
-  const [wordToGuess, setWordToGuess] = useState<string[]>([
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
+  const [letterPool, setLetterPool] = useState<LetterPoolType[]>([]);
+  const [wordToGuess, setWordToGuess] = useState<string[]>([]);
   const [randomWord, setRandomWord] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [fillCount, setFillCount] = useState<number>(5);
+  const [fillCount, setFillCount] = useState<number>(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameEndMessage, setGameEndMessage] = useState<string>("");
+  const [isFirstRender, setIsFirstRender] = useState(false);
 
-  function populateLetterBox(letter: string) {
+  function populateLetterBox(letter: string, position: number) {
     setError("");
     if (gameOver) return;
-    const indexOfLetter = randomWord.indexOf(letter);
     const emptyIndex = wordToGuess.indexOf("");
     if (randomWord.includes(letter)) {
-      if (indexOfLetter === emptyIndex) {
+      if (position === emptyIndex) {
         setWordToGuess((prevWord) => {
           const emptyIndex = prevWord.indexOf("");
 
@@ -48,7 +48,7 @@ const GuessingBox = () => {
           return prevWord;
         });
         setFillCount((count) => count - 1);
-      } else {
+      } else if (position === emptyIndex + 1) {
         setError("The Letter is in the word, but position is incorrect!");
       }
     } else {
@@ -58,15 +58,23 @@ const GuessingBox = () => {
   }
 
   function generateLetterPool(word: string) {
-    const tempPool = [];
-    for (let i = 0; i < 15; i++) {
-      if (i < 5) {
-        tempPool.push(word[i]);
+    const tempPool: LetterPoolType[] = [];
+    const tempPoolArr: string[] = [];
+    for (let i = 0; i < 20; i++) {
+      if (i < word.length) {
+        tempPool.push({ letter: word[i], position: i });
+        tempPoolArr.push(word[i]);
       } else {
-        const randomCharIndex = Math.floor(Math.random() * 25);
-        const randomChar = alphabet[randomCharIndex];
-
-        tempPool.push(randomChar);
+        let flag = true;
+        while (flag) {
+          const randomCharIndex = Math.floor(Math.random() * 25);
+          const randomChar = alphabet[randomCharIndex];
+          if (!tempPoolArr.includes(randomChar)) {
+            tempPool.push({ letter: randomChar, position: -1 });
+            tempPoolArr.push(randomChar);
+            flag = false;
+          }
+        }
       }
     }
     // ? shuffling logic
@@ -79,27 +87,36 @@ const GuessingBox = () => {
   }
 
   function getRandomWord() {
-    const index = Math.floor(Math.random() * 4);
-    console.log(wordsArr[index]);
-    setRandomWord(wordsArr[index]);
-    generateLetterPool(wordsArr[index]);
+    const randomWord = generate({ minLength: 5, maxLength: 7 });
+    // ? generating the number of dashes, based on the length of the randomWord
+    const dashes = [];
+    for (let i = 0; i < randomWord.length; i++) {
+      dashes.push("");
+    }
+    setWordToGuess(dashes);
+    // ? setting the random word
+    setRandomWord(randomWord.toString());
+    setFillCount(randomWord.length);
+    // ? generating the pool of letters the user can choose from
+    generateLetterPool(randomWord.toString());
   }
 
   useEffect(() => {
     getRandomWord();
+    setIsFirstRender(true);
   }, []);
 
   useEffect(() => {
     if (marks === 0) {
       setGameOver(true);
       setGameEndMessage("Try Again Champ");
-    } else if (fillCount === 0) {
+    } else if (fillCount === 0 && isFirstRender) {
       setGameOver(true);
       if (marks >= 0 && marks <= 2) setGameEndMessage("Try Again Champ!");
       else if (marks >= 3 && marks <= 6) setGameEndMessage("Can Improve!");
       else setGameEndMessage("Excellent!");
     }
-  }, [marks, fillCount]);
+  }, [marks, fillCount, isFirstRender]);
 
   return (
     <main className="guess-box">
@@ -110,81 +127,25 @@ const GuessingBox = () => {
           {wordToGuess.map((letter, index) => {
             return (
               <div key={index} className="letter-box">
-                {letter}
+                <span className="letter-container">{letter}</span>
+                <svg
+                  key={index}
+                  width="60"
+                  height="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10,10 Q15,12 20,10 Q25,8 30,10 Q35,12 40,10 Q45,8 90,10"
+                    stroke="red"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="5,5"
+                  />
+                </svg>
               </div>
             );
           })}
         </div>
-        <svg
-          width="60"
-          height="20"
-          xmlns="http://www.w3.org/2000/svg"
-          className="demo"
-        >
-          <path
-            d="M10,10 Q15,12 20,10 Q25,8 30,10 Q35,12 40,10 Q45,8 90,10"
-            stroke="red"
-            strokeWidth="2"
-            fill="none"
-            strokeDasharray="5,5"
-          />
-        </svg>
-        <svg
-          width="60"
-          height="20"
-          xmlns="http://www.w3.org/2000/svg"
-          className="demo"
-        >
-          <path
-            d="M10,10 Q15,12 20,10 Q25,8 30,10 Q35,12 40,10 Q45,8 90,10"
-            stroke="red"
-            strokeWidth="2"
-            fill="none"
-            strokeDasharray="5,5"
-          />
-        </svg>
-        <svg
-          width="60"
-          height="20"
-          xmlns="http://www.w3.org/2000/svg"
-          className="demo"
-        >
-          <path
-            d="M10,10 Q15,12 20,10 Q25,8 30,10 Q35,12 40,10 Q45,8 90,10"
-            stroke="red"
-            strokeWidth="2"
-            fill="none"
-            strokeDasharray="5,5"
-          />
-        </svg>
-        <svg
-          width="60"
-          height="20"
-          xmlns="http://www.w3.org/2000/svg"
-          className="demo"
-        >
-          <path
-            d="M10,10 Q15,12 20,10 Q25,8 30,10 Q35,12 40,10 Q45,8 90,10"
-            stroke="red"
-            strokeWidth="2"
-            fill="none"
-            strokeDasharray="5,5"
-          />
-        </svg>
-        <svg
-          width="60"
-          height="20"
-          xmlns="http://www.w3.org/2000/svg"
-          className="demo"
-        >
-          <path
-            d="M10,10 Q15,12 20,10 Q25,8 30,10 Q35,12 40,10 Q45,8 90,10"
-            stroke="red"
-            strokeWidth="2"
-            fill="none"
-            strokeDasharray="5,5"
-          />
-        </svg>
       </div>
       {error && <span className="error">*{error}</span>}
       {/* Letter Pool Div */}
@@ -192,8 +153,15 @@ const GuessingBox = () => {
         <div className="letter-pool-box">
           {letterPool.map((item, index) => {
             return (
-              <div key={index} onClick={() => populateLetterBox(item)}>
-                <Letter randomWord={randomWord} letter={item} />
+              <div
+                key={index}
+                onClick={() => populateLetterBox(item.letter, item.position)}
+              >
+                <Letter
+                  randomWord={randomWord}
+                  letter={item.letter}
+                  gameOver={gameOver}
+                />
               </div>
             );
           })}
@@ -214,6 +182,15 @@ const GuessingBox = () => {
         <img src={circle} alt="circle pic" className="circle" />
         <span className="max-marks">10</span>
       </div>
+
+      {gameOver && (
+        <div className="practice">
+          <img src={arrow} alt="" className="arrow" />
+          <button onClick={() => window.location.reload()}>
+            Practice More...
+          </button>
+        </div>
+      )}
     </main>
   );
 };

@@ -1,23 +1,15 @@
 import "./App.css";
-import { useState } from "react";
-import Column from "./Column";
+import Paginator from "./components/Paginator";
+import ToBePaginated from "./components/ToBePaginated";
 
 function App() {
-  const { tasks, setTasks } = useState([
-    {
-      id: 1,
-      title: "title 1",
-    },
-    {
-      id: 2,
-      title: "title 2",
-    },
-    {
-      id: 2,
-      title: "title 2",
-    },
-  ]);
-  return <main>tasky</main>;
+  return (
+    <main>
+      <Paginator pages={10}>
+        <ToBePaginated />
+      </Paginator>
+    </main>
+  );
 }
 
 export default App;

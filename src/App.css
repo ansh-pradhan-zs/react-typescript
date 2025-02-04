@@ -167,6 +167,11 @@
   color: #f1e9d2;
 }
 
+.orange {
+  background-color: orange;
+  color: #f1e9d2;
+}
+
 .green {
   background-color: green;
   color: #f1e9d2;
@@ -184,6 +189,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+}
+
+.letter-box > svg {
+  position: absolute;
+  top: -10px;
+  left: -10px;
 }
 
 .letter-container {
@@ -201,7 +213,7 @@
 
 .drop-area {
   display: flex;
-  gap: 15px;
+  gap: 3rem;
   position: absolute;
   top: 76px;
   left: 50%;
@@ -251,7 +263,7 @@
 .error {
   position: absolute;
   top: 143px;
-  font-size: 16px;
+  font-size: 20px;
   color: red;
 }
 

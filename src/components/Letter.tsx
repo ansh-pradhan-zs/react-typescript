@@ -2,18 +2,23 @@ import React, { useState } from "react";
 
 enum GuessStates {
   notChecked = "not-touched",
-  isInWord = "isInWord",
+  isInWordCorrectPos = "isInWordCorrectPos",
   isNotInWord = "isNotInWord",
+  isInWordPosWrong = "isInWordPosWrong",
 }
 
 const Letter = ({
   randomWord,
   gameOver,
   letter,
+  position,
+  wordToGuessArr,
 }: {
   randomWord: string;
   gameOver: boolean;
   letter: string;
+  position: number;
+  wordToGuessArr: string[];
 }) => {
   const [letterState, setLetterState] = useState<GuessStates>(
     GuessStates.notChecked
@@ -21,10 +26,21 @@ const Letter = ({
 
   function handleClick() {
     if (gameOver) return;
-    if (randomWord.includes(letter)) {
-      setLetterState(GuessStates.isInWord);
-    } else {
+    // if (randomWord.includes(letter)) {
+    //   setLetterState(GuessStates.isInWord);
+    // } else {
+    //   setLetterState(GuessStates.isNotInWord);
+    // }
+
+    if (
+      randomWord.includes(letter) &&
+      wordToGuessArr.indexOf("") === position
+    ) {
+      setLetterState(GuessStates.isInWordCorrectPos);
+    } else if (!randomWord.includes(letter)) {
       setLetterState(GuessStates.isNotInWord);
+    } else {
+      setLetterState(GuessStates.isInWordPosWrong);
     }
   }
 
@@ -32,10 +48,12 @@ const Letter = ({
     <div
       onClick={handleClick}
       className={`letter ${
-        letterState === GuessStates.isInWord
+        letterState === GuessStates.isInWordCorrectPos
           ? "green"
           : letterState === GuessStates.isNotInWord
           ? "red"
+          : letterState === GuessStates.isInWordPosWrong
+          ? "orange"
           : "transparent"
       }`}
     >

@@ -48,8 +48,8 @@ const GuessingBox = () => {
           return prevWord;
         });
         setFillCount((count) => count - 1);
-      } else if (position === emptyIndex + 1) {
-        setError("The Letter is in the word, but position is incorrect!");
+      } else {
+        setError(" Letter is in word but position is incorrect.");
       }
     } else {
       setError("The letter is not in the word! Mark lost!");
@@ -87,7 +87,8 @@ const GuessingBox = () => {
   }
 
   function getRandomWord() {
-    const randomWord = generate({ minLength: 5, maxLength: 7 });
+    const randomWord = generate({ minLength: 5, maxLength: 5 });
+    console.log(randomWord);
     // ? generating the number of dashes, based on the length of the randomWord
     const dashes = [];
     for (let i = 0; i < randomWord.length; i++) {
@@ -130,16 +131,17 @@ const GuessingBox = () => {
                 <span className="letter-container">{letter}</span>
                 <svg
                   key={index}
-                  width="60"
-                  height="20"
+                  width="100"
+                  height="100"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M10,10 Q15,12 20,10 Q25,8 30,10 Q35,12 40,10 Q45,8 90,10"
+                    d="M10,15 Q35,5 70,10 L65,60 Q50,65 35,55 L10,65 Q0,50 10,35 Z"
+                    fill="transparent"
                     stroke="red"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeDasharray="5,5"
+                    stroke-width="3"
+                    stroke-dasharray="6,6"
+                    fill-opacity="1"
                   />
                 </svg>
               </div>
@@ -158,8 +160,10 @@ const GuessingBox = () => {
                 onClick={() => populateLetterBox(item.letter, item.position)}
               >
                 <Letter
+                  wordToGuessArr={wordToGuess}
                   randomWord={randomWord}
                   letter={item.letter}
+                  position={item.position}
                   gameOver={gameOver}
                 />
               </div>

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Paginator from "./components/Paginator";
 import ToBePaginated from "./components/ToBePaginated";
-import { ItemType } from "../types";
+import { ProductsEntity } from "../types";
 
 function App() {
-  const [items, setItems] = useState<ItemType[]>([]);
+  const [items, setItems] = useState<ProductsEntity[]>([]);
 
   async function populateItems() {
     try {

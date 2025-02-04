@@ -5,25 +5,10 @@ import { ItemType } from "../../types";
 interface props {
   currPage: number;
   itemsPerPage: number;
+  items: any[];
 }
 
-const ToBePaginated = ({ currPage, itemsPerPage }: props) => {
-  const [items, setItems] = useState<ItemType[]>([]);
-
-  async function populateItems() {
-    try {
-      const res = await fetch("https://dummyjson.com/products?limit=100");
-      const data = await res.json();
-      setItems(data.products);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    populateItems();
-  }, []);
-
+const ToBePaginated = ({ currPage, itemsPerPage, items }: props) => {
   const from = (currPage - 1) * itemsPerPage;
   const to = from + itemsPerPage;
 

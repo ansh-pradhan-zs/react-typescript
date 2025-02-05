@@ -1,13 +1,10 @@
 import "./App.css";
-import Paginator from "./components/Paginator";
-import ToBePaginated from "./components/ToBePaginated";
+import TrafficLights from "./components/TrafficLights";
 
 function App() {
   return (
     <main>
-      <Paginator pages={10}>
-        <ToBePaginated />
-      </Paginator>
+      <TrafficLights />
     </main>
   );
 }

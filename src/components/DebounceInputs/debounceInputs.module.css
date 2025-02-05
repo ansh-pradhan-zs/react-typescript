@@ -1,0 +1,25 @@
+.main_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.button_container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.input_group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input_group > input {
+  height: 2rem;
+  width: 15rem;
+  padding: 0.5rem;
+}

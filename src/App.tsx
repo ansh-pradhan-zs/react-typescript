@@ -1,23 +1,12 @@
 import "./App.css";
-import { useState } from "react";
-import Column from "./Column";
+import TrafficLights from "./components/TrafficLights";
 
 function App() {
-  const { tasks, setTasks } = useState([
-    {
-      id: 1,
-      title: "title 1",
-    },
-    {
-      id: 2,
-      title: "title 2",
-    },
-    {
-      id: 2,
-      title: "title 2",
-    },
-  ]);
-  return <main>tasky</main>;
+  return (
+    <main>
+      <TrafficLights />
+    </main>
+  );
 }
 
 export default App;
